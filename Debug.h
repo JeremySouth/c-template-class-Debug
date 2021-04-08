@@ -1,6 +1,6 @@
 #pragma once
+#include "pch.h"
 
-#include <Windows.h>
 #include <time.h>
 #include <fstream>
 #include <sstream>
