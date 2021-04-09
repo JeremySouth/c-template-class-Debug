@@ -165,3 +165,19 @@ void OutputApiError(const char* func, const char* apiName)
     const auto error = ::GetLastError();
     DebugLog::Error(func, "() => ", apiName, "() failed with error code: ", error);
 }
+
+#ifdef _DEBUG
+#define FUNCTION_SCOPE_TIMER \
+    ScopedTimer _timer_##__COUNTER__([](std::chrono::microseconds us) \
+    { \
+        Debug::Log(__FUNCTION__, "@", __FILE__, ":", __LINE__, " => ", us.count(), " [us]"); \
+    });
+#define SCOPE_TIMER(Name) \
+    ScopedTimer _timer_##__COUNTER__([](std::chrono::microseconds us) \
+    { \
+        Debug::Log(#Name, " => ", us.count(), " [us]"); \
+    });
+#else
+#define FUNCTION_SCOPE_TIMER
+#define SCOPE_TIMER(Name)
+#endif
